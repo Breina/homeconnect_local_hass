@@ -27,7 +27,7 @@ async def async_setup_entry(
 ) -> None:
     """Set up select platform."""
     entities = create_entities(
-        {"select": HCSelect, "program": HCProgram},
+        {"select": HCSelect, "program": HCProgram, "program_reference": HCProgramReference},
         config_entry.runtime_data,
     )
     async_add_entites(entities)
@@ -113,3 +113,34 @@ class HCProgram(HCSelect):
             await selected_program.select()
         elif selected_program.execution == Execution.START_ONLY:
             await selected_program.start()
+
+
+class HCProgramReference(HCSelect):
+    """Select Entity for a Setting whose value is the UID of a program (e.g. Connected Dry)."""
+
+    def __init__(
+        self,
+        entity_description: HCSelectEntityDescription,
+        runtime_data: HCData,
+    ) -> None:
+        super().__init__(entity_description, runtime_data)
+        self._programs = entity_description.mapping
+        self._rev_programs = {value: key for key, value in self._programs.items()}
+
+    @property
+    def options(self) -> list[str] | None:
+        return list(self._programs.values())
+
+    @property
+    def current_option(self) -> str | None:
+        if self._entity.value is None:
+            return None
+        program = self._runtime_data.appliance.entities_uid.get(self._entity.value)
+        if program is None:
+            return None
+        return self._programs.get(program.name)
+
+    @error_decorator
+    async def async_select_option(self, option: str) -> None:
+        program = self._runtime_data.appliance.programs[self._rev_programs[option]]
+        await self._entity.set_value(program.uid)

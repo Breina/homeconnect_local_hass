@@ -19,6 +19,7 @@ from custom_components.homeconnect_ws.entity_descriptions import (
     HCSelectEntityDescription,
     HCSensorEntityDescription,
     HCSwitchEntityDescription,
+    HCTextEntityDescription,
     _EntityDescriptionsType,
 )
 from homeassistant.components.sensor import SensorDeviceClass
@@ -126,6 +127,18 @@ ENTITY_DESCRIPTIONS: _EntityDescriptionsType = {
         ),
     ],
     "number": [HCNumberEntityDescription(key="Test.Number", name="Number", entity="Test.Number")],
+    "program_reference": [
+        HCSelectEntityDescription(
+            key="Test.ProgramReference",
+            name="ProgramReference",
+            entity="Test.ProgramReference",
+            mapping={
+                "Test.Program.Program1": "test_program_program1",
+                "Test.Program.Program2": "test_program_program2",
+            },
+        )
+    ],
+    "text": [HCTextEntityDescription(key="Test.Text", name="Text", entity="Test.Text")],
     "program": [
         HCSelectEntityDescription(
             key="Test.SelectedProgram",
@@ -158,6 +171,12 @@ ENTITY_DESCRIPTIONS: _EntityDescriptionsType = {
     ],
     "sensor": [
         HCSensorEntityDescription(key="Test.Sensor", name="Sensor", entity="Test.Sensor"),
+        HCSensorEntityDescription(
+            key="Test.Sensor.Unknown",
+            name="Sensor.Unknown",
+            entity="Test.Sensor",
+            unknown_value=0xFFFF,
+        ),
         HCSensorEntityDescription(
             key="Test.Sensor.Enum",
             name="Sensor.Enum",
@@ -294,6 +313,21 @@ DEVICE_DESCRIPTION = DeviceDescription(
             stepSize=2,
             available=True,
             access=Access.READ_WRITE,
+        ),
+        EntityDescription(
+            uid=205,
+            name="Test.Text",
+            max=16,
+            available=True,
+            access=Access.READ_WRITE,
+            protocolType="String",
+        ),
+        EntityDescription(
+            uid=206,
+            name="Test.ProgramReference",
+            available=True,
+            access=Access.READ_WRITE,
+            protocolType="Integer",
         ),
         EntityDescription(
             uid=104,

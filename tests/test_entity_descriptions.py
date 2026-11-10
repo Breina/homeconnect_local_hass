@@ -19,6 +19,9 @@ from custom_components.homeconnect_ws.entity_descriptions.common import (
     generate_power_switch,
     generate_program,
 )
+from custom_components.homeconnect_ws.entity_descriptions.laundry_care import (
+    generate_connected_dry_proposed_program,
+)
 from custom_components.homeconnect_ws.entity_descriptions.refrigeration import (
     generate_internal_light,
     generate_internal_light_brightness,
@@ -295,10 +298,12 @@ TRANSLATION_DOMAINS = {
     "light": "light",
     "number": "number",
     "program": "select",
+    "program_reference": "select",
     "select": "select",
     "sensor": "sensor",
     "start_button": "button",
     "switch": "switch",
+    "text": "text",
     "wifi": "sensor",
 }
 
@@ -322,3 +327,39 @@ def test_descriptions_have_english_name() -> None:
                 missing.append(f"{domain}.{key}")
 
     assert sorted(set(missing)) == []
+
+
+async def test_generate_connected_dry_proposed_program(
+    mock_homeconnect_appliance: MockApplianceType,
+) -> None:
+    """Test the Connected Dry proposed program select lists the dryer programs."""
+    description = DeviceDescription(
+        setting=[
+            EntityDescription(
+                uid=1,
+                name="LaundryCare.Dryer.Setting.ConnectedDry.ProposedProgram",
+                access=Access.READ_WRITE,
+                available=True,
+                protocolType="Integer",
+            )
+        ],
+        program=[
+            EntityDescription(uid=10, name="LaundryCare.Dryer.Program.Cotton"),
+            EntityDescription(uid=11, name="LaundryCare.Dryer.Program.Mix"),
+            EntityDescription(uid=12, name="LaundryCare.Dryer.Program.ConnectedDry"),
+        ],
+    )
+    appliance = await mock_homeconnect_appliance(description=description)
+    descriptions = generate_connected_dry_proposed_program(appliance)
+    (select,) = descriptions["program_reference"]
+    assert select.entity == "LaundryCare.Dryer.Setting.ConnectedDry.ProposedProgram"
+    assert select.mapping == {
+        "LaundryCare.Dryer.Program.Cotton": "laundrycare_dryer_program_cotton",
+        "LaundryCare.Dryer.Program.Mix": "laundrycare_dryer_program_mix",
+    }
+
+    # Not a Connected Dry dryer
+    appliance = await mock_homeconnect_appliance(
+        description=DeviceDescription(program=description["program"])
+    )
+    assert generate_connected_dry_proposed_program(appliance) == {}

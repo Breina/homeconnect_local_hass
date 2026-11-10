@@ -13,6 +13,7 @@ from homeassistant.components.number import NumberEntityDescription
 from homeassistant.components.select import SelectEntityDescription
 from homeassistant.components.sensor import SensorEntityDescription
 from homeassistant.components.switch import SwitchEntityDescription
+from homeassistant.components.text import TextEntityDescription
 from homeassistant.helpers.entity import EntityDescription
 from homeconnect_websocket import HomeAppliance
 from homeconnect_websocket.entities import Access
@@ -66,6 +67,7 @@ class HCSensorEntityDescription(
     available_access: tuple[Access] = (Access.READ, Access.READ_WRITE)
     has_state_translation: bool = False
     mapping: dict[str, str] = None
+    unknown_value: int | None = None
 
 
 class HCBinarySensorEntityDescription(
@@ -96,6 +98,12 @@ class HCNumberEntityDescription(
     available_access: tuple[Access] = (Access.READ_WRITE, Access.WRITE_ONLY)
 
 
+class HCTextEntityDescription(HCEntityDescription, TextEntityDescription, frozen_or_thawed=True):
+    """Description for Text Entity."""
+
+    available_access: tuple[Access] = (Access.READ_WRITE, Access.WRITE_ONLY)
+
+
 class HCLightEntityDescription(HCEntityDescription, LightEntityDescription, frozen_or_thawed=True):
     """Description for Number Entity."""
 
@@ -121,10 +129,12 @@ class EntityDescriptions(TypedDict):
     event_sensor: list[HCSensorEntityDescription]
     number: list[HCNumberEntityDescription]
     program: list[HCSelectEntityDescription]
+    program_reference: list[HCSelectEntityDescription]
     select: list[HCSelectEntityDescription]
     sensor: list[HCSensorEntityDescription]
     start_button: list[HCButtonEntityDescription]
     switch: list[HCSwitchEntityDescription]
+    text: list[HCTextEntityDescription]
     wifi: list[HCSensorEntityDescription]
     light: list[HCLightEntityDescription]
     fan: list[HCFanEntityDescription]
@@ -138,10 +148,12 @@ _EntityDescriptionsDefinitionsType = dict[
         "event_sensor",
         "number",
         "program",
+        "program_reference",
         "select",
         "sensor",
         "start_button",
         "switch",
+        "text",
         "wifi",
         "light",
         "fan",
@@ -161,10 +173,12 @@ _EntityDescriptionsType = dict[
         "event_sensor",
         "number",
         "program",
+        "program_reference",
         "select",
         "sensor",
         "start_button",
         "switch",
+        "text",
         "wifi",
         "light",
         "fan",

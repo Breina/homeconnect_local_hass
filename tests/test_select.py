@@ -237,3 +237,41 @@ async def test_select_program(
             },
         )
     )
+
+
+async def test_program_reference(
+    hass: HomeAssistant,
+    mock_appliance: MockAppliance,
+    patch_entity_description: None,
+) -> None:
+    """Test a select whose value is the UID of a program."""
+    entity_id = "select.fake_brand_homeappliance_programreference"
+    assert await setup_config_entry(hass, CONFIG_ENTRIES[0])
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.attributes[ATTR_OPTIONS] == ["test_program_program1", "test_program_program2"]
+    assert state.state == STATE_UNKNOWN
+
+    await mock_appliance.entities["Test.ProgramReference"].update({"value": 501})
+    await hass.async_block_till_done()
+    assert hass.states.get(entity_id).state == "test_program_program2"
+
+    # a UID that is no program
+    await mock_appliance.entities["Test.ProgramReference"].update({"value": 999})
+    await hass.async_block_till_done()
+    assert hass.states.get(entity_id).state == STATE_UNKNOWN
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        SERVICE_SELECT_OPTION,
+        {ATTR_ENTITY_ID: entity_id, ATTR_OPTION: "test_program_program1"},
+        blocking=True,
+    )
+    mock_appliance.session.send_sync.assert_awaited_once_with(
+        Message(
+            resource="/ro/values",
+            action=Action.POST,
+            data={"uid": 206, "value": 500},
+        )
+    )

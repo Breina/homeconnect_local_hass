@@ -20,6 +20,7 @@ from .descriptions_definitions import (
     HCSelectEntityDescription,
     HCSensorEntityDescription,
     HCSwitchEntityDescription,
+    HCTextEntityDescription,
     _EntityDescriptionsDefinitionsType,
     _EntityDescriptionsType,
 )
@@ -57,10 +58,12 @@ def get_available_entities(appliance: HomeAppliance) -> EntityDescriptions:
         "event_sensor": [],
         "number": [],
         "program": [],
+        "program_reference": [],
         "select": [],
         "sensor": [],
         "start_button": [],
         "switch": [],
+        "text": [],
         "wifi": [],
         "light": [],
         "fan": [],
@@ -100,6 +103,7 @@ __all__ = [
     "HCSelectEntityDescription",
     "HCSensorEntityDescription",
     "HCSwitchEntityDescription",
+    "HCTextEntityDescription",
     "_EntityDescriptionsType",
     "get_available_entities",
 ]

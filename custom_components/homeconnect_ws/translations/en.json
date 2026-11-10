@@ -461,6 +461,27 @@
       },
       "binary_sensor_alarm_clock_elapsed": {
         "name": "Alarm Clock Elapsed"
+      },
+      "binary_sensor_connected_dry_dont_dry": {
+        "name": "Connected Dry: do not dry"
+      },
+      "binary_sensor_connected_dry_dont_dry_silk": {
+        "name": "Connected Dry: do not dry silk"
+      },
+      "binary_sensor_connected_dry_laundry_too_moist": {
+        "name": "Connected Dry: laundry too moist"
+      },
+      "binary_sensor_connected_dry_no_drying_program": {
+        "name": "Connected Dry: no drying program"
+      },
+      "binary_sensor_connected_dry_single_dry_large_items": {
+        "name": "Connected Dry: dry large items separately"
+      },
+      "binary_sensor_connected_dry_use_basket": {
+        "name": "Connected Dry: use the basket"
+      },
+      "binary_sensor_connected_dry_washer_too_loaded": {
+        "name": "Connected Dry: washer was overloaded"
       }
     },
     "sensor": {
@@ -1836,6 +1857,32 @@
       },
       "sensor_machinecare_remaining_runs": {
         "name": "MachineCare remaining runs"
+      },
+      "sensor_laundry_load": {
+        "name": "Laundry load"
+      },
+      "sensor_laundry_peak_final_spin_speed": {
+        "name": "Peak final spin speed"
+      },
+      "sensor_laundry_textile_type": {
+        "name": "Textile type",
+        "state": {
+          "mixed": "Mixed",
+          "cotton": "Cotton",
+          "synthetic": "Synthetic"
+        }
+      },
+      "sensor_connected_dry_status": {
+        "name": "Connected Dry status",
+        "state": {
+          "disconnected": "Disconnected",
+          "unbound": "Not paired",
+          "bound": "Paired",
+          "washing": "Washing",
+          "calculating": "Calculating",
+          "noprogramfound": "No program found",
+          "programavailable": "Program available"
+        }
       }
     },
     "select": {
@@ -3483,6 +3530,37 @@
           "turnofflight": "Turn off",
           "keeplighton": "Keep on"
         }
+      },
+      "select_connected_dry_server_state": {
+        "name": "Connected Dry server state",
+        "state": {
+          "unbound": "Not paired",
+          "boundnodata": "Paired, no data",
+          "washerprogramactive": "Washer program active",
+          "calculating": "Calculating",
+          "programavailable": "Program available",
+          "programnotfound": "Program not found"
+        }
+      },
+      "select_connected_dry_proposed_program": {
+        "name": "Connected Dry proposed program",
+        "state": {
+          "laundrycare_dryer_program_blankets": "Dry - Down Wear",
+          "laundrycare_dryer_program_businessshirts": "Shirts",
+          "laundrycare_dryer_program_cotton": "Dry - Cottons",
+          "laundrycare_dryer_program_dessous": "Dry - Lingerie",
+          "laundrycare_dryer_program_hygiene": "Dry - Hygiene",
+          "laundrycare_dryer_program_inbasket": "Dry - Wool in Basket",
+          "laundrycare_dryer_program_mix": "Dry - Mixed Fabrics",
+          "laundrycare_dryer_program_outdoor": "Dry - Outdoor",
+          "laundrycare_dryer_program_pillow": "Dry - Duvet",
+          "laundrycare_dryer_program_super40": "Dry - Rapid 40min",
+          "laundrycare_dryer_program_synthetic": "Dry -  Easy-Care",
+          "laundrycare_dryer_program_timecold": "Time Progr. Cold",
+          "laundrycare_dryer_program_timewarm": "Time Progr. Warm",
+          "laundrycare_dryer_program_towels": "Dry - Towels",
+          "laundrycare_dryer_program_shirtsblouses_sportfitness": "Dry - Sportswear"
+        }
       }
     },
     "button": {
@@ -3580,6 +3658,15 @@
       },
       "number_setting_alarm_clock_groupe": {
         "name": "Alarm Clock{group_name}"
+      },
+      "number_connected_dry_washer_load": {
+        "name": "Connected Dry washer load"
+      },
+      "number_connected_dry_washer_peak_spin_speed": {
+        "name": "Connected Dry washer peak spin speed"
+      },
+      "number_connected_dry_washer_selected_spin_speed": {
+        "name": "Connected Dry washer selected spin speed"
       }
     },
     "light": {
@@ -3605,6 +3692,11 @@
     "fan": {
       "fan_hood": {
         "name": "Fan"
+      }
+    },
+    "text": {
+      "text_connected_dry_washer_program": {
+        "name": "Connected Dry washer program"
       }
     }
   },

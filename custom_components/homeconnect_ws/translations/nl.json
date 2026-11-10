@@ -244,6 +244,27 @@
       },
       "binary_sensor_freezer_low_voltage": {
         "name": "Lage voedingsspanning"
+      },
+      "binary_sensor_connected_dry_dont_dry": {
+        "name": "Connected Dry: niet drogen"
+      },
+      "binary_sensor_connected_dry_dont_dry_silk": {
+        "name": "Connected Dry: zijde niet drogen"
+      },
+      "binary_sensor_connected_dry_laundry_too_moist": {
+        "name": "Connected Dry: was te nat"
+      },
+      "binary_sensor_connected_dry_no_drying_program": {
+        "name": "Connected Dry: geen droogprogramma"
+      },
+      "binary_sensor_connected_dry_single_dry_large_items": {
+        "name": "Connected Dry: grote stukken apart drogen"
+      },
+      "binary_sensor_connected_dry_use_basket": {
+        "name": "Connected Dry: gebruik de mand"
+      },
+      "binary_sensor_connected_dry_washer_too_loaded": {
+        "name": "Connected Dry: wasmachine was overladen"
       }
     },
     "sensor": {
@@ -1079,6 +1100,32 @@
           "emptypowdersources": "Leegmaken poederbronnen",
           "roundrobinflush": "Spoelsysteem",
           "initializenewcartridge": "Initiëren Cartridge"
+        }
+      },
+      "sensor_laundry_load": {
+        "name": "Hoeveelheid was"
+      },
+      "sensor_laundry_peak_final_spin_speed": {
+        "name": "Hoogste eindcentrifugeertoerental"
+      },
+      "sensor_laundry_textile_type": {
+        "name": "Textielsoort",
+        "state": {
+          "mixed": "Gemengd",
+          "cotton": "Katoen",
+          "synthetic": "Synthetisch"
+        }
+      },
+      "sensor_connected_dry_status": {
+        "name": "Connected Dry-status",
+        "state": {
+          "disconnected": "Niet verbonden",
+          "unbound": "Niet gekoppeld",
+          "bound": "Gekoppeld",
+          "washing": "Wassen",
+          "calculating": "Berekenen",
+          "noprogramfound": "Geen programma gevonden",
+          "programavailable": "Programma beschikbaar"
         }
       }
     },
@@ -1970,6 +2017,42 @@
           "boostlevel1": "Boost 1",
           "boostlevel2": "Boost 2"
         }
+      },
+      "select_connected_dry_server_state": {
+        "name": "Connected Dry-serverstatus",
+        "state": {
+          "unbound": "Niet gekoppeld",
+          "boundnodata": "Gekoppeld, geen gegevens",
+          "washerprogramactive": "Wasprogramma actief",
+          "calculating": "Berekenen",
+          "programavailable": "Programma beschikbaar",
+          "programnotfound": "Programma niet gevonden"
+        }
+      },
+      "select_connected_dry_proposed_program": {
+        "name": "Connected Dry voorgesteld programma",
+        "state": {
+          "laundrycare_dryer_program_blankets": "Dekens",
+          "laundrycare_dryer_program_businessshirts": "Overhemden/blouses",
+          "laundrycare_dryer_program_businessshirts_easyiron": "Overhemden/blouses kreukherstellend",
+          "laundrycare_dryer_program_cotton": "Katoen",
+          "laundrycare_dryer_program_dessous": "Lingerie",
+          "laundrycare_dryer_program_delicates": "Delicates",
+          "laundrycare_dryer_program_downfeathers": "Downfeathers",
+          "laundrycare_dryer_program_hygiene": "Hygiëne",
+          "laundrycare_dryer_program_inbasket_woolbasket": "Wol in de mand",
+          "laundrycare_dryer_program_maintenance_depthcare": "Machinereiniging Uitgebreid",
+          "laundrycare_dryer_program_maintenance_quickcare": "Machinereiniging Snel",
+          "laundrycare_dryer_program_mix": "Mix",
+          "laundrycare_dryer_program_outdoor": "Outdoor",
+          "laundrycare_dryer_program_pillow": "Hoofdkussen",
+          "laundrycare_dryer_program_super40": "Extra snel 40'",
+          "laundrycare_dryer_program_synthetic": "Syntetisch",
+          "laundrycare_dryer_program_timecold": "Tijdprogr. koud",
+          "laundrycare_dryer_program_timewarm": "Tijdprogr. warm",
+          "laundrycare_dryer_program_towels": "Handdoeken",
+          "laundrycare_dryer_program_woolfinish": "Wol Finish"
+        }
       }
     },
     "button": {
@@ -2034,6 +2117,15 @@
       },
       "number_start_in": {
         "name": "Start over"
+      },
+      "number_connected_dry_washer_load": {
+        "name": "Connected Dry hoeveelheid was"
+      },
+      "number_connected_dry_washer_peak_spin_speed": {
+        "name": "Connected Dry hoogste centrifugeertoerental"
+      },
+      "number_connected_dry_washer_selected_spin_speed": {
+        "name": "Connected Dry gekozen centrifugeertoerental"
       }
     },
     "light": {
@@ -2056,6 +2148,11 @@
     "fan": {
       "fan_hood": {
         "name": "Afzuigventilator"
+      }
+    },
+    "text": {
+      "text_connected_dry_washer_program": {
+        "name": "Connected Dry wasprogramma"
       }
     }
   },

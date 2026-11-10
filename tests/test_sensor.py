@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from homeassistant.components.sensor import ATTR_OPTIONS
-from homeassistant.const import ATTR_FRIENDLY_NAME
+from homeassistant.const import ATTR_FRIENDLY_NAME, STATE_UNKNOWN
 
 from . import setup_config_entry
 from .const import CONFIG_ENTRIES
@@ -66,6 +66,24 @@ async def test_update(
 
     state = hass.states.get(entity_id)
     assert state.state == "5"
+
+
+async def test_update_unknown_value(
+    hass: HomeAssistant,
+    mock_appliance: MockAppliance,
+    patch_entity_description: None,
+) -> None:
+    """Test a sensor reporting its 'no value' marker as unknown."""
+    entity_id = "sensor.fake_brand_homeappliance_sensor_unknown"
+    assert await setup_config_entry(hass, CONFIG_ENTRIES[0])
+
+    await mock_appliance.entities["Test.Sensor"].update({"value": 0xFFFF})
+    await hass.async_block_till_done()
+    assert hass.states.get(entity_id).state == STATE_UNKNOWN
+
+    await mock_appliance.entities["Test.Sensor"].update({"value": 5})
+    await hass.async_block_till_done()
+    assert hass.states.get(entity_id).state == "5"
 
 
 async def test_update_enum(

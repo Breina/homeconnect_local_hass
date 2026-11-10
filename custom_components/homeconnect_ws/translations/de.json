@@ -419,6 +419,27 @@
       },
       "binary_sensor_alarm_clock_elapsed": {
         "name": "Alarm abgelaufen"
+      },
+      "binary_sensor_connected_dry_dont_dry": {
+        "name": "Connected Dry: nicht trocknen"
+      },
+      "binary_sensor_connected_dry_dont_dry_silk": {
+        "name": "Connected Dry: Seide nicht trocknen"
+      },
+      "binary_sensor_connected_dry_laundry_too_moist": {
+        "name": "Connected Dry: Wäsche zu nass"
+      },
+      "binary_sensor_connected_dry_no_drying_program": {
+        "name": "Connected Dry: kein Trockenprogramm"
+      },
+      "binary_sensor_connected_dry_single_dry_large_items": {
+        "name": "Connected Dry: große Teile einzeln trocknen"
+      },
+      "binary_sensor_connected_dry_use_basket": {
+        "name": "Connected Dry: Korb verwenden"
+      },
+      "binary_sensor_connected_dry_washer_too_loaded": {
+        "name": "Connected Dry: Waschmaschine überladen"
       }
     },
     "sensor": {
@@ -1326,6 +1347,32 @@
         "state": {
           "poor": "Poor",
           "filled": "Gefüllt"
+        }
+      },
+      "sensor_laundry_load": {
+        "name": "Beladung"
+      },
+      "sensor_laundry_peak_final_spin_speed": {
+        "name": "Höchste Endschleuderdrehzahl"
+      },
+      "sensor_laundry_textile_type": {
+        "name": "Textilart",
+        "state": {
+          "mixed": "Gemischt",
+          "cotton": "Baumwolle",
+          "synthetic": "Synthetik"
+        }
+      },
+      "sensor_connected_dry_status": {
+        "name": "Connected Dry Status",
+        "state": {
+          "disconnected": "Nicht verbunden",
+          "unbound": "Nicht gekoppelt",
+          "bound": "Gekoppelt",
+          "washing": "Waschen",
+          "calculating": "Berechnen",
+          "noprogramfound": "Kein Programm gefunden",
+          "programavailable": "Programm verfügbar"
         }
       }
     },
@@ -2522,6 +2569,58 @@
           "basiccarbonfilter": "Standard-Kohlefilter",
           "regenerativecarbonfilter": "Regenerierbarer Kohlefilter"
         }
+      },
+      "select_connected_dry_server_state": {
+        "name": "Connected Dry Serverstatus",
+        "state": {
+          "unbound": "Nicht gekoppelt",
+          "boundnodata": "Gekoppelt, keine Daten",
+          "washerprogramactive": "Waschprogramm aktiv",
+          "calculating": "Berechnen",
+          "programavailable": "Programm verfügbar",
+          "programnotfound": "Programm nicht gefunden"
+        }
+      },
+      "select_connected_dry_proposed_program": {
+        "name": "Connected Dry vorgeschlagenes Programm",
+        "state": {
+          "laundrycare_dryer_program_bedlinens_bedlinens_bedlinens": "Trocknen - Bettwäsche",
+          "laundrycare_dryer_program_coldrefresh_coldrefresh_coldrefresh": "Trocknen - Smart Finish",
+          "laundrycare_dryer_program_cotton_cotton_cotton": "Trocknen - Baumwolle",
+          "laundrycare_dryer_program_cottoneco_cottoneco_cottoneco": "Trocknen - Baumwolle Eco",
+          "laundrycare_dryer_program_delicates_delicates_dessous": "Trocknen - Feinwäsche / Dessous",
+          "laundrycare_dryer_program_downfeathers_downfeathers_downfeathers": "Trocknen - Daunen",
+          "laundrycare_dryer_program_hygiene_hygiene_hygiene": "Trocknen - Hygieneprogramm",
+          "laundrycare_dryer_program_jeans_jeans_jeans": "Trocknen - Jeans",
+          "laundrycare_dryer_program_maintenancecare1_maintenancecare1_quickcare": "Pflegeleicht – Schnellpflege",
+          "laundrycare_dryer_program_maintenancecare2_maintenancecare2_depthcare": "Pflegeleicht – Tiefenpflege",
+          "laundrycare_dryer_program_mix_mix_mix": "Schnell/Mix",
+          "laundrycare_dryer_program_outdoor_outdoor_outdoor": "Trocknen - Outdoor",
+          "laundrycare_dryer_program_outdoor_outdoor_sportswear": "Trocknen - Sportbekleidung",
+          "laundrycare_dryer_program_shirtblouses_shirtblouses_shirtblouses": "Trocknen - Hemden / Blusen",
+          "laundrycare_dryer_program_silentdry_silentdry_silentdry": "Nachttrocknen/Leisetrocknen",
+          "laundrycare_dryer_program_super40_super40_super40": "Super 40",
+          "laundrycare_dryer_program_synthetic_synthetic_synthetic": "Trocknen - Pflegeleicht",
+          "laundrycare_dryer_program_timecold_timecold_timecold": "Kalt",
+          "laundrycare_dryer_program_timewarm_timewarm_timewarm": "Zeitprogramm warm",
+          "laundrycare_dryer_program_towels_towels_towels": "Trocknen - Handtücher",
+          "laundrycare_dryer_program_woolfinish_woolfinish_woolfinish": "Trocknen - Wolle Finish",
+          "laundrycare_dryer_program_blankets": "Trocknen - Daunen",
+          "laundrycare_dryer_program_businessshirts": "Hemden",
+          "laundrycare_dryer_program_cotton": "Trocknen - Baumwolle",
+          "laundrycare_dryer_program_dessous": "Trocknen - Dessous",
+          "laundrycare_dryer_program_hygiene": "Trocknen - Hygiene",
+          "laundrycare_dryer_program_inbasket": "Trocknen - Wolle im Korb",
+          "laundrycare_dryer_program_mix": "Trocknen - Mischgewebe",
+          "laundrycare_dryer_program_outdoor": "Trocknen - Outdoor",
+          "laundrycare_dryer_program_pillow": "Trocknen - Bettdecke",
+          "laundrycare_dryer_program_super40": "Trocknen - Schnell 40 Min.",
+          "laundrycare_dryer_program_synthetic": "Trocknen - Pflegeleicht",
+          "laundrycare_dryer_program_timecold": "Zeitprogramm Kalt",
+          "laundrycare_dryer_program_timewarm": "Zeitprogramm Warm",
+          "laundrycare_dryer_program_towels": "Trocknen - Handtücher",
+          "laundrycare_dryer_program_shirtsblouses_sportfitness": "Trocknen - Sportwäsche"
+        }
       }
     },
     "button": {
@@ -2610,6 +2709,15 @@
       },
       "number_hood_sensor_sensitivity": {
         "name": "Automatische Sensorempfindlichkeit"
+      },
+      "number_connected_dry_washer_load": {
+        "name": "Connected Dry Beladung Waschmaschine"
+      },
+      "number_connected_dry_washer_peak_spin_speed": {
+        "name": "Connected Dry höchste Schleuderdrehzahl"
+      },
+      "number_connected_dry_washer_selected_spin_speed": {
+        "name": "Connected Dry gewählte Schleuderdrehzahl"
       }
     },
     "light": {
@@ -2635,6 +2743,11 @@
     "fan": {
       "fan_hood": {
         "name": "Lüfter"
+      }
+    },
+    "text": {
+      "text_connected_dry_washer_program": {
+        "name": "Connected Dry Waschprogramm"
       }
     }
   },

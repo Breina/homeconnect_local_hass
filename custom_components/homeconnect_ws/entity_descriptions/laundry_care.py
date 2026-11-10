@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
-from homeassistant.components.number import NumberMode
+from homeassistant.components.number import NumberDeviceClass, NumberMode
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.components.switch import SwitchDeviceClass
 from homeassistant.const import (
@@ -17,16 +17,47 @@ from homeassistant.const import (
 )
 
 from .descriptions_definitions import (
+    EntityDescriptions,
     HCBinarySensorEntityDescription,
     HCLightEntityDescription,
     HCNumberEntityDescription,
     HCSelectEntityDescription,
     HCSensorEntityDescription,
     HCSwitchEntityDescription,
+    HCTextEntityDescription,
 )
 
 if TYPE_CHECKING:
+    from homeconnect_websocket import HomeAppliance
+
     from .descriptions_definitions import _EntityDescriptionsDefinitionsType
+
+CONNECTED_DRY_PROGRAM = "LaundryCare.Dryer.Program.ConnectedDry"
+CONNECTED_DRY_PROPOSED_PROGRAM = "LaundryCare.Dryer.Setting.ConnectedDry.ProposedProgram"
+
+
+def generate_connected_dry_proposed_program(appliance: HomeAppliance) -> EntityDescriptions:
+    """Get the Connected Dry proposed program select description, offering the dryer's programs."""
+    descriptions = EntityDescriptions()
+    if CONNECTED_DRY_PROPOSED_PROGRAM not in appliance.entities:
+        return descriptions
+    programs = {
+        program: program.lower().replace(".", "_")
+        for program in sorted(appliance.programs)
+        if program != CONNECTED_DRY_PROGRAM
+    }
+    if programs:
+        descriptions["program_reference"] = [
+            HCSelectEntityDescription(
+                key="select_connected_dry_proposed_program",
+                entity=CONNECTED_DRY_PROPOSED_PROGRAM,
+                entity_category=EntityCategory.CONFIG,
+                entity_registry_enabled_default=False,
+                mapping=programs,
+            )
+        ]
+    return descriptions
+
 
 LAUNDRY_ENTITY_DESCRIPTIONS: _EntityDescriptionsDefinitionsType = {
     "sensor": [
@@ -74,6 +105,32 @@ LAUNDRY_ENTITY_DESCRIPTIONS: _EntityDescriptionsDefinitionsType = {
             device_class=SensorDeviceClass.ENUM,
             has_state_translation=True,
             entity_registry_enabled_default=False,
+        ),
+        HCSensorEntityDescription(
+            key="sensor_laundry_load",
+            entity="LaundryCare.Washer.Status.ProcessingData.LaundryLoad",
+            device_class=SensorDeviceClass.WEIGHT,
+            native_unit_of_measurement=UnitOfMass.GRAMS,
+            suggested_unit_of_measurement=UnitOfMass.KILOGRAMS,
+            unknown_value=0xFFFF,  # reported when the program did not weigh the load
+        ),
+        HCSensorEntityDescription(
+            key="sensor_laundry_peak_final_spin_speed",
+            entity="LaundryCare.Washer.Status.ProcessingData.PeakFinalSpinSpeed",
+            native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
+        ),
+        HCSensorEntityDescription(
+            key="sensor_laundry_textile_type",
+            entity="LaundryCare.Washer.Status.ProcessingData.TextileType",
+            device_class=SensorDeviceClass.ENUM,
+            has_state_translation=True,
+        ),
+        HCSensorEntityDescription(
+            key="sensor_connected_dry_status",
+            entity="LaundryCare.Dryer.Status.ConnectedDry.OperationStatus",
+            device_class=SensorDeviceClass.ENUM,
+            has_state_translation=True,
+            entity_category=EntityCategory.DIAGNOSTIC,
         ),
     ],
     "binary_sensor": [
@@ -230,6 +287,55 @@ LAUNDRY_ENTITY_DESCRIPTIONS: _EntityDescriptionsDefinitionsType = {
             value_on={"Present", "Confirmed"},
             value_off={"Off"},
         ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_dont_dry",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.DontDry",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_dont_dry_silk",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.DontDrySilk",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_laundry_too_moist",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.LaundryTooMoist",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_no_drying_program",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.NoDryingProgram",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_single_dry_large_items",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.SingleDryLargeItems",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_use_basket",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.UseBasket",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
+        HCBinarySensorEntityDescription(
+            key="binary_sensor_connected_dry_washer_too_loaded",
+            entity="LaundryCare.Dryer.Event.ConnectedDry.WasherTooLoaded",
+            entity_registry_enabled_default=False,
+            value_on={"Present", "Confirmed"},
+            value_off={"Off"},
+        ),
     ],
     "select": [
         HCSelectEntityDescription(
@@ -371,6 +477,13 @@ LAUNDRY_ENTITY_DESCRIPTIONS: _EntityDescriptionsDefinitionsType = {
             has_state_translation=True,
             entity_registry_enabled_default=False,
         ),
+        HCSelectEntityDescription(
+            key="select_connected_dry_server_state",
+            entity="LaundryCare.Dryer.Setting.ConnectedDry.ServerOperationState",
+            entity_category=EntityCategory.CONFIG,
+            entity_registry_enabled_default=False,
+            has_state_translation=True,
+        ),
     ],
     "number": [
         HCNumberEntityDescription(
@@ -406,6 +519,37 @@ LAUNDRY_ENTITY_DESCRIPTIONS: _EntityDescriptionsDefinitionsType = {
             entity_category=EntityCategory.CONFIG,
             native_unit_of_measurement=UnitOfVolume.MILLILITERS,
             mode=NumberMode.AUTO,
+        ),
+        HCNumberEntityDescription(
+            key="number_connected_dry_washer_load",
+            entity="LaundryCare.Dryer.Setting.ConnectedDry.WasherLaundryLoad",
+            device_class=NumberDeviceClass.WEIGHT,
+            native_unit_of_measurement=UnitOfMass.GRAMS,
+            native_min_value=0,
+            native_max_value=25500,
+            entity_category=EntityCategory.CONFIG,
+            entity_registry_enabled_default=False,
+            mode=NumberMode.BOX,
+        ),
+        HCNumberEntityDescription(
+            key="number_connected_dry_washer_peak_spin_speed",
+            entity="LaundryCare.Dryer.Setting.ConnectedDry.WasherPeakFinalSpinSpeed",
+            native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
+            native_min_value=0,
+            native_max_value=2000,
+            entity_category=EntityCategory.CONFIG,
+            entity_registry_enabled_default=False,
+            mode=NumberMode.BOX,
+        ),
+        HCNumberEntityDescription(
+            key="number_connected_dry_washer_selected_spin_speed",
+            entity="LaundryCare.Dryer.Setting.ConnectedDry.WasherSelectedSpinSpeed",
+            native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
+            native_min_value=0,
+            native_max_value=2000,
+            entity_category=EntityCategory.CONFIG,
+            entity_registry_enabled_default=False,
+            mode=NumberMode.BOX,
         ),
     ],
     "switch": [
@@ -575,4 +719,13 @@ LAUNDRY_ENTITY_DESCRIPTIONS: _EntityDescriptionsDefinitionsType = {
             entity="LaundryCare.Common.Setting.DrumLight.Active",
         ),
     ],
+    "text": [
+        HCTextEntityDescription(
+            key="text_connected_dry_washer_program",
+            entity="LaundryCare.Dryer.Setting.ConnectedDry.WasherProgramName",
+            entity_category=EntityCategory.CONFIG,
+            entity_registry_enabled_default=False,
+        ),
+    ],
+    "dynamic": [generate_connected_dry_proposed_program],
 }
